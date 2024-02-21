@@ -226,3 +226,93 @@
 ---
 핵심 질문 원본 레포 : https://github.com/ksundong/backend-interview-question <br>
 참고하면 좋을 레포 : https://github.com/NKLCWDT/cs?tab=readme-ov-file
+
+
+---
+1주차 ( 24/02/21 ) 꼬리질문 + 필기 내용
+
+### ApplicaionContext vs BeanFactory
+
+- BeanFactory : `**Lazy Loading**` 을 지원하지 않는다.
+- **`ApplicationContext`  :** Lazy Loading 을 지원한다.
+
+### CGLIB ( = JDK 동적 프록시 )
+
+- **`BeanFactory.getBean()`** ⇒ 실제 객체를 가져온다.
+- **`ApplicationContext.getBean()`** → `**@CGLIB**`, 동적 프록시 객체를 가져온다.
+
+### **IoC ⇒ 프레임워크가 개발 흐름을 가져간다.**
+
+- **`IoC`의 예시**
+    - **`DI`**
+    - **`JUnit Test Framework`**
+    - 코드 ⇒ **Template Method Pattern ( 추상 클래스 VS 상속클래스 )**
+
+### **Template Call-back Pattern**
+
+- [https://inpa.tistory.com/entry/GOF-💠-Template-Callback-변형-패턴-알아보기](https://inpa.tistory.com/entry/GOF-%F0%9F%92%A0-Template-Callback-%EB%B3%80%ED%98%95-%ED%8C%A8%ED%84%B4-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0)
+
+### JS는 왜 구린가?
+
+- 타입을 선언 안해주니까, **타입 안정성**이 보장되지 않는다.
+
+### Compiler 언어 vs Interpreter 언어
+
+- **안정성, 실행 속도 ( JAVAC | JIT Compiler )**
+- **Interpreter는 그 순간순간 해석해야 함 ( 그 대신 컴파일 과정이 없음 )**
+- **javac ⇒ JDK, JVM : JIT Compile**r
+
+### Docker vs k8s
+
+- **Java Generic = 타입 안정성**
+- IoC Container ⇒ SOLID 중 어떤 거?
+    - **OCP + DIP**
+
+### Facade 패턴
+
+- **ISP**
+- **Interface**를 통합해준다.
+
+### SRP
+
+- 모듈이 하나의 기능만 들고있다는 것이 아니다.
+    - 한 모듈 수정 시, 그 전파 범위가 크면 안된다.
+- 한 모듈이 하나의 기능만 구현해야한다는 것이 아니라,
+    
+    모듈이 가진 책임 범위를 지정하자.
+    
+- **A → B, C** 바꿔야했을 때 문제..?
+    - 결합도가 높아진다.
+
+**`CAS() + volatile`**
+
+- `**volatile**` 은 **`cache`**를 쓰지 않는다는 의미
+- `**Compare_And_Swap()**`
+
+### @Bean + @Configuration
+
+- configuration이 스프링 빈(Spring Bean)
+- CGLIB → **프록시 객체**…
+
+### 프록시 객체만 생성되는 이유?
+
+- 프록시 패턴,, CGLIB만 만들어놓고 ( = 의존성, 조립은 완성 )
+- 실제 객체가 사용될 때, 객체를 가져온다.
+
+- ApplicationContext : 컴파일 타임에 에러
+- BeanFactory : 런타임에 에러
+
+### **Proxy - CGILIB**
+
+- 컴파일 타임 때 조립, 조립 시점에서 문제가 생기는 경우가 많다.
+- DI 를 Runtime에 동작, 대부분 스프링 객체 → 컴파일 타임때 조립.
+- 객체가 Runtime 때 생성되어야하는 객체 → 컴파일 타임 때 NPE가 발생 → Proxy 패턴을 사용, 컴파일 타임 때 이걸 넘겨준다.
+- 조립 할 때는, $Proxy Pattern 을 왜 쓰는가?
+
+### 생성자 주입과, 컴파일 타임 때 순환참조 잡아내기
+
+- 스프링 컨테이너가 객체들(Beans)을 생성할 때 ( 정확히는 Bean Proxy를 호출 )
+, 객체의 생성자를 호출한다.
+- 객체의 생성자 호출 시, 해당 객체의 의존성을 파악해서 해당 객체가 의존하는 Bean의 Proxy를 만들어 조립해준다.
+- 조립과정에서 두 객체간의 순환참조가 발생하면, 컴파일 에러는 만들어낸다.
+따라서, 생성자 주입을 사용하면 컴파일 타임 때 Bean들 간의 순환참조를 잡아낼 수 있다.
