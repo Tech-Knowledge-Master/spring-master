@@ -7,6 +7,12 @@
 # BlueJ files
 *.ctxt
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -23,4 +29,7 @@
 hs_err_pid*
 replay_pid*
 
+
+# .DS_Store
+.DS_Store
 .idea
